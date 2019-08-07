@@ -15,7 +15,8 @@ var point      = fs.readFileSync('./examples/point.wkt', 'utf8'),
     multi_ls   = fs.readFileSync('./examples/multi_linestring.wkt', 'utf8'),
     multi_p    = fs.readFileSync('./examples/multi_polygon.wkt', 'utf8'),
     multi_p_h  = fs.readFileSync('./examples/multi_polygon_with_hole.wkt', 'utf8'),
-    poly_dots  = fs.readFileSync('./examples/polygon_with_dots.wkt', 'utf8');
+    poly_dots  = fs.readFileSync('./examples/polygon_with_dots.wkt', 'utf8'),
+    geometry_collection    = fs.readFileSync('./examples/geometry_collection.wkt', 'utf8');
 
 
 
@@ -285,6 +286,34 @@ vows.describe('WKT Parsing').addBatch({
     'the point should be correctly converted to Loqi-GeoJSON internally': function (topic) {
       assert.equal(topic.type, "MultiPolygon");
       assert.equal(topic.coordinates.length, 0);
+    }
+  },
+  'Given a GeometryCollection': {
+    topic: function () {
+      return wkt.parse("GEOMETRYCOLLECTION(LINESTRING (30 10, 10 30, 40 40), POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10)))");
+    },
+    'the point should be correctly converted to Loqi-GeoJSON internally': function (topic) {
+      assert.equal(topic.type, "GeometryCollection");
+      assert.equal(topic.geometries.length, 2);
+      assert.equal(topic.geometries[0]['type'], "LineString");
+      assert.equal(topic.geometries[0]['coordinates'][0][0], 30);
+      assert.equal(topic.geometries[0]['coordinates'][0][1], 10);
+      assert.equal(topic.geometries[0]['coordinates'][1][0], 10);
+      assert.equal(topic.geometries[0]['coordinates'][1][1], 30);
+      assert.equal(topic.geometries[0]['coordinates'][2][0], 40);
+      assert.equal(topic.geometries[0]['coordinates'][2][1], 40);
+      assert.equal(topic.geometries[1]['type'], "Polygon");
+      assert.equal(topic.geometries[1]['coordinates'][0][0][0], 30);
+      assert.equal(topic.geometries[1]['coordinates'][0][0][1], 10);
+      assert.equal(topic.geometries[1]['coordinates'][0][1][0], 10);
+      assert.equal(topic.geometries[1]['coordinates'][0][1][1], 20);
+      assert.equal(topic.geometries[1]['coordinates'][0][2][0], 20);
+      assert.equal(topic.geometries[1]['coordinates'][0][2][1], 40);
+      assert.equal(topic.geometries[1]['coordinates'][0][3][0], 40);
+      assert.equal(topic.geometries[1]['coordinates'][0][3][1], 40);
+      assert.equal(topic.geometries[1]['coordinates'][0][4][0], 30);
+      assert.equal(topic.geometries[1]['coordinates'][0][4][1], 10);
+     
     }
   }
 }).export(module);

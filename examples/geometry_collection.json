@@ -1,0 +1,26 @@
+{
+  "type": "GeometryCollection",
+  "geometries": [
+    {
+      "type": "LineString",
+      "coordinates": [
+        [ 30, 10 ],
+        [ 10, 30 ],
+        [ 40, 40 ]
+      ]
+    },
+    {
+      "type": "Polygon",
+      "coordinates": [
+        [
+          [ 30, 10 ],
+          [ 10, 20 ],
+          [ 20, 40 ],
+          [ 40, 40 ],
+          [ 30, 10 ]
+        ]
+      ]
+    }
+  ],
+  "bbox": [ 10, 10, 40, 40 ]
+}

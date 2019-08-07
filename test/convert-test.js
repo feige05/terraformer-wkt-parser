@@ -9,7 +9,8 @@ var point      = require('../examples/point.json');
     poly_hole  = require('../examples/polygon_with_hole.json'),
     multipoint = require('../examples/multipoint.json'),
     multi_ls   = require('../examples/multi_linestring.json'),
-    multi_p    = require('../examples/multi_polygon.json');
+    multi_p    = require('../examples/multi_polygon.json'),
+    geometry_collection    = require('../examples/geometry_collection.json');
 
 
 
@@ -116,6 +117,14 @@ vows.describe('WKT Convert').addBatch({
     },
     'the multipolygon should be correctly converted to WKT': function (topic) {
       assert.equal(topic, "MULTIPOLYGON EMPTY");
+    }
+  },
+  'Given a GeometryCollection': {
+    topic: function () {
+      return wkt.convert(geometry_collection);
+    },
+    'the geometry_collection should be correctly converted to WKT': function (topic) {
+      assert.equal(topic, "GEOMETRYCOLLECTION(LINESTRING (30 10, 10 30, 40 40), POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10)))");
     }
   }
 }).export(module);

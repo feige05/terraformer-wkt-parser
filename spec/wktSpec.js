@@ -722,4 +722,19 @@ describe("WKT Parser", function() {
     expect(output instanceof Terraformer.MultiPolygon).toBeTruthy();
     expect(output.type).toEqual("MultiPolygon");
   });
+
+  it("should parse a GEOMETRYCOLLECTION", function(){
+    var input = "GEOMETRYCOLLECTION(POINT (100 0), LINESTRING (101 0, 102 1))";
+    var output = new Terraformer.WKT.parse(input);
+    expect(output.geometries).toEqual([
+      { "type": "Point",
+        "coordinates": [100.0, 0.0]
+        },
+      { "type": "LineString",
+        "coordinates": [ [101.0, 0.0], [102.0, 1.0] ]
+        }
+    ]);
+    expect(output instanceof Terraformer.GeometryCollection).toBeTruthy();
+    expect(output.type).toEqual("GeometryCollection");
+  });
 });

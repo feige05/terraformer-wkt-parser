@@ -16,6 +16,25 @@
 
   "SOURCE";
 
+  function GeometryList (geometry) {
+    this.data = [ geometry ];
+    this.type = 'GeometryList';
+  }
+
+  GeometryList.prototype.addGeometry = function (geometry) {
+    if (geometry.type === 'GeometryList') {
+      this.data = this.data.concat(geometry.data);
+    } else {
+      this.data.push(geometry);
+    }
+
+    return this;
+  };
+  
+  GeometryList.prototype.toJSON = function () {
+    return this.data
+  };
+
   function PointArray (point) {
     this.data = [ point ];
     this.type = 'PointArray';
